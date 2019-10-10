@@ -1,4 +1,10 @@
 [alias]
-  local = !echo "Unpublished Local Branches": && git branch -vv | cut -c 3- | awk '$3 !~/\\[/ { print \" \",$1 }' && echo "" && echo "Orphaned Local Branches:" && git branch -vv | cut -c 3- | grep ': gone]' | awk '{ print \" \",$1 }' && echo "" && echo "Merged into master:" && git branch --merged master | awk '!/master/ { print \" \",$1 }'
-  emails = !git shortlog -s -e | awk -F '<' '{ print $2 }' | awk -F '>' '{ print tolower($1) }' | sort | uniq
-  emailcheck = !git emails | grep -c "^$(git config user.email | awk '{ print tolower($1) }')$"
+ 	local = !echo "Unpublished Local Branches": && \
+		git branch -vv | cut -c 3- | awk '$3 !~/\\[/ { print \" \",$1 }' && \
+		echo "" && \
+		echo "Orphaned Local Branches:" && \
+		git branch -vv | cut -c 3- | grep ': gone]' | awk '{ print \" \",$1 }' && echo "" && \
+		echo "Merged into master:" && \
+		git branch --merged master | awk '!/master/ { print \" \",$1 }'
+	emails = !git shortlog -s -e | awk -F '<' '{ print $2 }' | awk -F '>' '{ print tolower($1) }' | uniq | sort
+	emailcheck = !git emails | grep -c "^$(git config user.email | awk '{ print tolower($1) }')$"
